@@ -1,0 +1,23 @@
+#   默认的profile为dev，其他环境通过指定启动参数使用不同的profile，比如：
+#   测试环境：java -jar attachment-server.jar --spring.profiles.active=test
+#   开发环境：java -jar attachment-server.jar --spring.profiles.active=dev
+#   生产环境：java -jar attachment-server.jar --spring.profiles.active=prod
+spring:
+  profiles:
+    active: dev
+  application:
+    name: oauth-server   # 应用名称
+  # JPA
+  jpa:
+    open-in-view: true
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQLDialect
+
+
+logging:
+  level:
+    root: warn #root日志以WARN级别输出
+    com.jwell.attachment: debug   #包下所有class以DEBUG级别输出
