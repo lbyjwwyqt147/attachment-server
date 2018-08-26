@@ -1,0 +1,30 @@
+server:
+  servlet:
+    context-path: /file   #设置项目名称
+#   默认的profile为dev，其他环境通过指定启动参数使用不同的profile，比如：
+#   测试环境：java -jar attachment-server.jar --spring.profiles.active=test
+#   开发环境：java -jar attachment-server.jar --spring.profiles.active=dev
+#   生产环境：java -jar attachment-server.jar --spring.profiles.active=prod
+spring:
+  profiles:
+    active: dev
+  application:
+    name: file-server
+  # JPA
+  jpa:
+    open-in-view: true
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQLDialect
+  servlet:
+      multipart:
+        enabled: true
+        max-file-size: 20MB      # 设置上传文件最大大小
+        max-request-size: 70MB  # 设置上传文件总大小
+
+
+
+
+

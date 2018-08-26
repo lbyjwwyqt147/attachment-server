@@ -1,0 +1,16 @@
+server:
+  port: 18080
+
+#配置外部访问文件（把上传的文件放到E盘下的fileUpload文件夹下）
+data:
+  file:
+    dir: E://fileUpload/
+  # 配置系统访问url
+  hostName: http://localhost:18080/
+
+spring.datas:
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
