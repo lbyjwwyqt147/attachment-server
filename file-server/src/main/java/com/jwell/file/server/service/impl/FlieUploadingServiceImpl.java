@@ -1,4 +1,4 @@
-package com.jwell.file.server.controller;
+package com.jwell.file.server.service.impl;
 
 import com.jwell.file.common.exception.ErrorCodeEnum;
 import com.jwell.file.common.file.FileEnum;
@@ -6,32 +6,25 @@ import com.jwell.file.common.file.FileUtil;
 import com.jwell.file.common.restful.RestfulVo;
 import com.jwell.file.common.restful.ResultUtil;
 import com.jwell.file.common.util.ThreadPoolExecutorFactory;
-import com.jwell.file.server.annotation.ApiVersion;
 import com.jwell.file.server.domain.dto.FileDataDto;
 import com.jwell.file.server.domain.vo.FileDataVo;
 import com.jwell.file.server.entity.AttachmentUploadingRecord;
 import com.jwell.file.server.service.AttachmentUploadingRecordService;
-import lombok.extern.slf4j.Slf4j;
+import com.jwell.file.server.service.FlieUploadingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadPoolExecutor;
 
-
 /***
- * 文件名称: UploadFileController.java
- * 文件描述: 文件上传 Controller
+ * 文件名称: FlieUploadingServiceImpl.java
+ * 文件描述: 文件上传 service  实现
  * 公 司: 积微物联
  * 内容摘要:
  * 其他说明:
@@ -40,12 +33,11 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @version 1.0
  * @author ljy
  */
-@Slf4j
-@RestController
-public class UploadFileController extends BaseController {
+@Service
+public class FlieUploadingServiceImpl implements FlieUploadingService {
     private ThreadPoolExecutor threadPoolExecutor = ThreadPoolExecutorFactory.getThreadPoolExecutor();
     @Autowired
-    private  AttachmentUploadingRecordService attachmentUploadingRecordService;
+    private AttachmentUploadingRecordService attachmentUploadingRecordService;
     //文件保存路径
     @Value("${data.file.dir}")
     private String filePath;
@@ -53,42 +45,9 @@ public class UploadFileController extends BaseController {
     @Value("${data.hostName}")
     private String hostName;
 
-    /**
-     * 单文件上传
-     * @param file
-     * @param data
-     * @return
-     */
-    @PostMapping(value = "/upload/single", produces = "application/json;charset=UTF-8")
-    @ApiVersion(1)
-    public RestfulVo singleUploadFile(@RequestParam("file") MultipartFile file, FileDataDto data) {
-        List<MultipartFile> files = new ArrayList<>();
-        files.add(file);
-        return this.startUpload(files, data);
-    }
 
-
-    /**
-     * 批量上传文件
-     * @param request
-     * @param data
-     * @return
-     */
-    @PostMapping(value = "/upload/batch", produces = "application/json;charset=UTF-8")
-    @ApiVersion(1)
-    public RestfulVo batchUploadFile(HttpServletRequest request, FileDataDto data){
-        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
-        return this.startUpload(files, data);
-    }
-
-
-    /**
-     * 开始上传文件
-     * @param files
-     * @param data
-     * @return
-     */
-    private RestfulVo startUpload(List<MultipartFile> files, FileDataDto data){
+    @Override
+    public RestfulVo startUploading(List<MultipartFile> files, FileDataDto data) {
         //判断文件是否为空
         if (files.isEmpty()) {
             return ResultUtil.resultInfo(ErrorCodeEnum.FILEISNULL, null);
@@ -129,8 +88,9 @@ public class UploadFileController extends BaseController {
                 return ResultUtil.error(ErrorCodeEnum.ERROR.getCode(), "上传文件出现错误.");
             }
         }
-       return  disposeFileData(recordList);
+        return  this.disposeFileData(recordList);
     }
+
 
     /**
      * 文件路径
@@ -141,9 +101,8 @@ public class UploadFileController extends BaseController {
     private String getPath(String fileType, String fileName){
         StringBuffer path = new StringBuffer(filePath);
         path.append("/").append(fileType);
-       // path.append("/").append(fileName);
-        return path.toString();
-       // return FileUtil.convertFilePath(path.toString());
+        path.append("/").append(fileName);
+        return FileUtil.convertFilePath(path.toString());
     }
 
     /**
