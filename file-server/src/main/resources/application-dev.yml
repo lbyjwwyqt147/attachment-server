@@ -4,7 +4,7 @@ server:
 #配置外部访问文件（把上传的文件放到E盘下的fileUpload文件夹下）
 data:
   file:
-    dir: E://fileUpload/
+    dir: E://jwellFileUpload/
   # 配置系统访问url
   hostName: http://localhost:18080/
 

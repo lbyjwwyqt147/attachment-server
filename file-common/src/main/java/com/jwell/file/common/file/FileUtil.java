@@ -1,6 +1,7 @@
 package com.jwell.file.common.file;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -33,6 +34,8 @@ public class FileUtil {
      * @return
      */
     public static Long getFileSize(File file){
+        double kb = new BigDecimal(file.length() / 1024).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
+        System.out.println(kb);
         return file.length();
     }
 

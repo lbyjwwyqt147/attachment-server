@@ -22,4 +22,6 @@ public class FileDataDto implements Serializable {
     private String businessType;
     /** 描述 */
     private String description;
+    /** 上传者 */
+    private String uploader;
 }
