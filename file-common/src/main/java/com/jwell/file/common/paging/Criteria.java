@@ -16,7 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
  */    
 public class Criteria<T> implements Specification<T>{  
     //查询条件容器  
-    private List<com.example.oauth.server.common.paging.ICriterion> criterions = new ArrayList<>();
+    private List<ICriterion> criterions = new ArrayList<>();
     //倒序查询条件  
     private String orderByDESC;  
     //升序查询条件  
@@ -26,16 +26,16 @@ public class Criteria<T> implements Specification<T>{
         
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query,    
             CriteriaBuilder builder) {    
-        if(StringUtils.isNotBlank(orderByASC))  
+        if (StringUtils.isNotBlank(orderByASC))
             query.orderBy(builder.desc(root.get(getOrderByASC())));  
-        if(StringUtils.isNotBlank(orderByDESC))  
+        if (StringUtils.isNotBlank(orderByDESC))
             query.orderBy(builder.desc(root.get(getOrderByDESC())));  
-        if(StringUtils.isNotBlank(groupBy))  
+        if (StringUtils.isNotBlank(groupBy))
             query.groupBy(root.get(getGroupBy()));  
         if (!criterions.isEmpty()) {    
             List<Predicate> predicates = new ArrayList<Predicate>();    
-            for(com.example.oauth.server.common.paging.ICriterion c : criterions){
-                predicates.add(c.toPredicate(root, query,builder));    
+            for (ICriterion c : criterions){
+                predicates.add(c.toPredicate(root, query, builder));
             }  
             // 将所有条件用 and 联合起来    
             if (predicates.size() > 0) {    
@@ -49,8 +49,8 @@ public class Criteria<T> implements Specification<T>{
      * @Methods Name add  
      *  
      */    
-    public void add(com.example.oauth.server.common.paging.ICriterion criterion){
-        if(criterion!=null){    
+    public void add(ICriterion criterion){
+        if (criterion != null){
             criterions.add(criterion);    
         }    
     }    

@@ -8,7 +8,8 @@ public enum ErrorCodeEnum {
 
     SUCCESS("ok.", 0),
     FAIL("fail.", 1),
-    ERROR("系统运行中发生错误.",500);
+    ERROR("系统运行中发生错误.",500),
+    FILEISNULL("上传文件为空.",501);
 
     private String message ;
     private Integer code ;

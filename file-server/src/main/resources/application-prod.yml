@@ -1,2 +1,11 @@
 server:
   port: 18081
+
+
+spring:
+  datas:
+    datasource:
+      url: jdbc:mysql://10.130.0.37:3307/jwwl_attachment?useUnicode=true&characterEncoding=utf8
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver

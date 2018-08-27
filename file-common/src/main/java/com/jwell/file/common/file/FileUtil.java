@@ -1,7 +1,9 @@
 package com.jwell.file.common.file;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 /***
  *
@@ -18,11 +20,11 @@ import java.util.Arrays;
 public class FileUtil {
 
     // 图片格式文件
-    private static final String[] IMAGES = new String[]{"bmp","jpg","jpge","png","gif","psd","exif","tiff"};
+    private static final String[] IMAGES = new String[]{".bmp", ".jpg", ".jpge", ".png", ".gif", ".psd", ".exif", ".tiff"};
     //文档格式文件
-    private static final String[] DOCUMENTS = new String[]{".doc",".xls",".ppt",".docx",".xlsx",".pptx",".vsdx",".pdm",".txt","pdf"};
+    private static final String[] DOCUMENTS = new String[]{".doc", ".xls", ".ppt", ".docx", ".xlsx", ".pptx", ".vsdx", ".pdm", ".txt", "pdf"};
     //视频格式文件
-    private static final String[] VIDEOS = new String[]{".avi",".rmvb",".wmv",".mov",".mp4",".ram",".asf",".rm"};
+    private static final String[] VIDEOS = new String[]{".avi", ".rmvb", ".wmv", ".mov", ".mp4", ".ram", ".asf", ".rm"};
     private static final String ZIP = ".zip";
 
     /**
@@ -51,13 +53,13 @@ public class FileUtil {
      * @return
      */
     public static String getFileType(String suffixName){
-        if(isImage(suffixName)){
+        if (isImage(suffixName)){
             return FileEnum.IMAGES.name();
         }
-        if(isDocument(suffixName)){
+        if (isDocument(suffixName)){
             return FileEnum.DOCUMENTS.name();
         }
-        if(isVideo(suffixName)){
+        if (isVideo(suffixName)){
             return FileEnum.VIDEOS.name();
         }
         if (isZip(suffixName)){
@@ -72,13 +74,13 @@ public class FileUtil {
      * @return
      */
     public static FileEnum getFileTypeEnum(String suffixName){
-        if(isImage(suffixName)){
+        if (isImage(suffixName)){
             return FileEnum.IMAGES;
         }
-        if(isDocument(suffixName)){
+        if (isDocument(suffixName)){
             return FileEnum.DOCUMENTS;
         }
-        if(isVideo(suffixName)){
+        if (isVideo(suffixName)){
             return FileEnum.VIDEOS;
         }
         if (isZip(suffixName)){
@@ -129,10 +131,10 @@ public class FileUtil {
      * @param path
      * @return
      */
-    public static String convertFilePath(String path){
+    public static String convertFilePath(String path) {
         String result = path;
         String fileSeparator = System.getProperty("file.separator");
-        if(fileSeparator.equals("\\")){
+        if (fileSeparator.equals("\\")) {
             result = path.replace("/", "\\");
         }
         return result;
@@ -144,6 +146,15 @@ public class FileUtil {
      * @return
      */
     public static String getNewFileName(String suffixName){
-        return System.nanoTime() + suffixName;
+        return new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + System.nanoTime() + (int) (Math.random() * 100) + suffixName;
+    }
+
+    /**
+     * 删除文件
+     * @param path 文件路径
+     */
+    public static void  delete(String path){
+        File file = new File(path);
+        file.delete();
     }
 }

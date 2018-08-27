@@ -1,5 +1,7 @@
 package com.jwell.file.common.file;
 
+import lombok.Data;
+
 /***
  *
  * @FileName: FileEnum
@@ -14,7 +16,7 @@ package com.jwell.file.common.file;
  */
 public enum FileEnum {
 
-    IMAGES((byte)1,"images"), DOCUMENTS((byte)2,"documents"), VIDEOS((byte)3,"videos"), ZIPS((byte)4,"zips"), OTHERS((byte)5,"others");
+    IMAGES((byte)1, "images"), DOCUMENTS((byte)2, "documents"), VIDEOS((byte)3, "videos"), ZIPS((byte)4, "zips"), OTHERS((byte)5, "others");
 
 
     private byte code;
@@ -31,5 +33,13 @@ public enum FileEnum {
 
     public void setCode(byte code) {
         this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
