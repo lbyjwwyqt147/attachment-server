@@ -2,9 +2,11 @@ package com.jwell.file.server.configuration;
 
 import com.jwell.file.common.file.FileEnum;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 /***
  *
@@ -30,12 +32,12 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         super.addResourceHandlers(registry);
     }
 
-   /* @Override
+    @Override
     @Bean
     public RequestMappingHandlerMapping requestMappingHandlerMapping() {
         RequestMappingHandlerMapping handlerMapping = new CustomRequestMappingHandlerMapping();
         handlerMapping.setOrder(0);
         handlerMapping.setInterceptors(getInterceptors());
         return handlerMapping;
-    }*/
+    }
 }

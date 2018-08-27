@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /***
  *
  */
-//@RequestMapping("/api/{version}")
-@RequestMapping("/api/v1")
+@RequestMapping("/api/{version}")
 public class BaseController {
 
 }
