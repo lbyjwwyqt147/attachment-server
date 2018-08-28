@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -37,12 +38,9 @@ public class FileUtil {
      * @param file
      * @return
      */
-    public static Long getFileSize(File file){
-        if (file.length() >= 1024){
-            return file.length() / 1024;
-        }
-        return file.length();
-
+    public static Double getFileSize(File file){
+        DecimalFormat df = new DecimalFormat("0.00");
+        return Double.parseDouble(df.format(file.length() / 1024));
     }
 
     /**
