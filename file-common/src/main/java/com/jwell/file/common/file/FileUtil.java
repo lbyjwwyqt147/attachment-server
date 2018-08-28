@@ -1,7 +1,10 @@
 package com.jwell.file.common.file;
 
-import java.io.File;
-import java.math.BigDecimal;
+import lombok.extern.slf4j.Slf4j;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -18,12 +21,13 @@ import java.util.Date;
  *
  *
  */
+@Slf4j
 public class FileUtil {
 
     // 图片格式文件
     private static final String[] IMAGES = new String[]{".bmp", ".jpg", ".jpge", ".png", ".gif", ".psd", ".exif", ".tiff"};
     //文档格式文件
-    private static final String[] DOCUMENTS = new String[]{".doc", ".xls", ".ppt", ".docx", ".xlsx", ".pptx", ".vsdx", ".pdm", ".txt", "pdf"};
+    private static final String[] DOCUMENTS = new String[]{".doc", ".xls", ".ppt", ".docx", ".xlsx", ".pptx", ".vsdx", ".pdm", ".txt", ".pdf", ".wps", ".dps", ".et"};
     //视频格式文件
     private static final String[] VIDEOS = new String[]{".avi", ".rmvb", ".wmv", ".mov", ".mp4", ".ram", ".asf", ".rm"};
     private static final String ZIP = ".zip";
@@ -34,9 +38,11 @@ public class FileUtil {
      * @return
      */
     public static Long getFileSize(File file){
-        double kb = new BigDecimal(file.length() / 1024).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
-        System.out.println(kb);
+        if (file.length() >= 1024){
+            return file.length() / 1024;
+        }
         return file.length();
+
     }
 
     /**
@@ -149,7 +155,7 @@ public class FileUtil {
      * @return
      */
     public static String getNewFileName(String suffixName){
-        return new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + System.nanoTime() + (int) (Math.random() * 100) + suffixName;
+        return new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + System.nanoTime() + (int) (Math.random() * 1000) + suffixName;
     }
 
     /**
@@ -157,7 +163,55 @@ public class FileUtil {
      * @param path 文件路径
      */
     public static void  delete(String path){
+        log.info("删除文件路径：" + path);
         File file = new File(path);
-        file.delete();
+        if (file.isFile() && file.exists()){
+            file.delete();
+            log.info(path + " 文件删除成功.");
+        }
+    }
+
+    /**
+     * 文件下载
+     * @param filePath　　文件路径
+     * @param fileName  文件名称
+     * @param response
+     */
+    public static void downloadFile(String filePath, String fileName, HttpServletResponse response){
+        File file = new File(filePath);
+        //判断文件是否存在
+        if (file.exists()) {
+            response.setContentType("application/force-download");
+            try {
+                response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            byte[] buffer = new byte[1024];
+            //文件输入流
+            FileInputStream fis = null;
+            BufferedInputStream bis = null;
+            //输出流
+            OutputStream os = null;
+            try {
+                os = response.getOutputStream();
+                fis = new FileInputStream(file);
+                bis = new BufferedInputStream(fis);
+                int i = bis.read(buffer);
+                while (i != -1){
+                    os.write(buffer);
+                    i = bis.read(buffer);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                bis.close();
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

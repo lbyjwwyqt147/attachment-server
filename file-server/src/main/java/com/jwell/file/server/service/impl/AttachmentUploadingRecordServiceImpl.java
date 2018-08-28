@@ -1,5 +1,7 @@
 package com.jwell.file.server.service.impl;
 
+import com.jwell.file.common.file.FileUtil;
+import com.jwell.file.common.util.ThreadPoolExecutorFactory;
 import com.jwell.file.server.entity.AttachmentUploadingRecord;
 import com.jwell.file.server.repository.AttachmentUploadingRecordRepository;
 import com.jwell.file.server.service.AttachmentUploadingRecordService;
@@ -8,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /***
  * 文件名称: AttachmentUploadingRecordServiceImpl.java
@@ -24,6 +28,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class AttachmentUploadingRecordServiceImpl implements AttachmentUploadingRecordService {
+    private ThreadPoolExecutor threadPoolExecutor = ThreadPoolExecutorFactory.getThreadPoolExecutor();
 
     @Autowired
     private AttachmentUploadingRecordRepository attachmentUploadingRecordRepository;
@@ -54,5 +59,53 @@ public class AttachmentUploadingRecordServiceImpl implements AttachmentUploading
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Transactional
+    @Override
+    public int deleteByIdIn(List<Long> ids) {
+        List<AttachmentUploadingRecord> records = this.findAllById(ids);
+        int result = attachmentUploadingRecordRepository.deleteByIdIn(ids);
+        if (result > 0) {
+            this.deleteFile(records);
+        }
+        return result;
+    }
+
+    @Transactional
+    @Override
+    public int deleteById(Long id) {
+        List<Long> ids = new LinkedList<>();
+        ids.add(id);
+        List<AttachmentUploadingRecord> records = this.findAllById(ids);
+        int result =  attachmentUploadingRecordRepository.deleteAllById(id);
+        if (result > 0) {
+            this.deleteFile(records);
+        }
+        return result;
+    }
+
+    @Override
+    public List<AttachmentUploadingRecord> findAllById(List<Long> ids) {
+       // Criteria<AttachmentUploadingRecord> criteria = new Criteria<>();
+        // criteria.add(Restrictions.in("id", ids));
+        return attachmentUploadingRecordRepository.findAllById(ids);
+    }
+
+    /**
+     * 删除文件
+     * @param records 记录
+     */
+    private void deleteFile(List<AttachmentUploadingRecord> records) {
+        if (records != null && !records.isEmpty()) {
+            for (AttachmentUploadingRecord record : records) {
+                threadPoolExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        FileUtil.delete(record.getAbsoluteAddress());
+                    }
+                });
+            }
+        }
     }
 }

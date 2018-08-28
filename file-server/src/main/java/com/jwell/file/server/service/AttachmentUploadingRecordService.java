@@ -31,4 +31,25 @@ public interface AttachmentUploadingRecordService {
      * @return
      */
     List<AttachmentUploadingRecord> batchInsert(List<AttachmentUploadingRecord> list);
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    int deleteByIdIn(List<Long> ids);
+
+    /**
+     * 单条删除
+     * @param id
+     * @return
+     */
+    int deleteById(Long id);
+
+    /**
+     * 根据ID 获取数据
+     * @param ids
+     * @return
+     */
+    List<AttachmentUploadingRecord> findAllById(List<Long> ids);
 }

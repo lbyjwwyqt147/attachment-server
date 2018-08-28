@@ -24,11 +24,11 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //addResourceHandler是指你想通过url请求的路径
         //addResourceLocations是文件存放的真实路径
-        registry.addResourceHandler("/" + FileEnum.IMAGES.getName()+ "/**").addResourceLocations("file:" + flieRelativePath + "/" + FileEnum.IMAGES.getName());
-        registry.addResourceHandler("/" + FileEnum.DOCUMENTS.getName() + "/**").addResourceLocations("file:" + flieRelativePath + "/" + FileEnum.DOCUMENTS.getName());
-        registry.addResourceHandler("/" + FileEnum.VIDEOS.getName() + "/**").addResourceLocations("file:"+ flieRelativePath + "/" + FileEnum.VIDEOS.getName());
-        registry.addResourceHandler("/" + FileEnum.ZIPS.getName() + "/**").addResourceLocations("file:"+ flieRelativePath + "/" + FileEnum.ZIPS.getName());
-        registry.addResourceHandler("/" + FileEnum.OTHERS.getName() + "/**").addResourceLocations("file:"+ flieRelativePath + "/" + FileEnum.OTHERS.getName());
+        registry.addResourceHandler("/" + FileEnum.IMAGES.getName()+ "/**").addResourceLocations("file:" + flieRelativePath + "/" + FileEnum.IMAGES.getName() + "/");
+        registry.addResourceHandler("/" + FileEnum.DOCUMENTS.getName() + "/**").addResourceLocations("file:" + flieRelativePath + "/" + FileEnum.DOCUMENTS.getName()  + "/");
+        registry.addResourceHandler("/" + FileEnum.VIDEOS.getName() + "/**").addResourceLocations("file:"+ flieRelativePath + "/" + FileEnum.VIDEOS.getName()  + "/");
+        registry.addResourceHandler("/" + FileEnum.ZIPS.getName() + "/**").addResourceLocations("file:"+ flieRelativePath + "/" + FileEnum.ZIPS.getName()  + "/");
+        registry.addResourceHandler("/" + FileEnum.OTHERS.getName() + "/**").addResourceLocations("file:"+ flieRelativePath + "/" + FileEnum.OTHERS.getName()  + "/");
         super.addResourceHandlers(registry);
     }
 

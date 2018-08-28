@@ -84,7 +84,7 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
                 // 请求访问文件的 url 地址 url="http://域名/项目名/images/"+newFileName
                 String requestUrl = this.getFileRequestUrl(fileEnum.getName(), newFileName);
                 // 数据入库
-                AttachmentUploadingRecord record = new AttachmentUploadingRecord(fileName, newFileName, filePath+ "/" + fileEnum.getName(), path, requestUrl, suffixName, fileEnum.getCode(), FileUtil.getFileSize(dataFile), data.getSystemCode(), data.getBusinessCode(), data.getBusinessType(), data.getDescription());
+                AttachmentUploadingRecord record = new AttachmentUploadingRecord(fileName, newFileName, filePath+ "/" + fileEnum.getName(), path, requestUrl, suffixName, fileEnum.getCode(), FileUtil.getFileSize(dataFile), data.getSystemCode(), data.getBusinessCode(), data.getBusinessType(), data.getDescription(), data.getUploaderName(), data.getUploaderId());
                 recordList.add(record);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -116,7 +116,7 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
      */
     private String getFileRequestUrl(String fileType, String fileName){
         StringBuffer requestUrl = new StringBuffer(hostName);
-        requestUrl.append("/").append(contextPath).append("/");
+        requestUrl.append(contextPath).append("/");
         requestUrl.append(fileType).append("/").append(fileName);
         return requestUrl.toString();
     }

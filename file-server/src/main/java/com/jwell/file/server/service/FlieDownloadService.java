@@ -20,11 +20,11 @@ public interface FlieDownloadService {
 
     /**
      * 文件下载
-     * @param request
+     * @param id 文件id
      * @param response
      * @return
      */
-    RestfulVo downloadFile(HttpServletRequest request, HttpServletResponse response);
+    RestfulVo downloadFile(Long id, HttpServletResponse response);
 
     /**
      * 多个文件打包下载
@@ -32,5 +32,5 @@ public interface FlieDownloadService {
      * @param response
      * @return
      */
-    RestfulVo downloadZipFile(HttpServletRequest request, HttpServletResponse response);
+    RestfulVo downloadZipFile(HttpServletResponse response);
 }

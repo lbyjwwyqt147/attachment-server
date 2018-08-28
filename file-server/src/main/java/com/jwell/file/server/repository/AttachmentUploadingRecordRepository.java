@@ -4,6 +4,8 @@ import com.jwell.file.server.entity.AttachmentUploadingRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.List;
+
 /***
  * 文件名称: AttachmentUploadingRecordRepository.java
  * 文件描述: 附件  Repository
@@ -16,5 +18,19 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @author ljy
  */
 public interface AttachmentUploadingRecordRepository extends JpaRepository<AttachmentUploadingRecord, Long>, JpaSpecificationExecutor<AttachmentUploadingRecord> {
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    int deleteByIdIn(List<Long> ids);
+
+    /**
+     * 单条删除
+     * @param id
+     * @return
+     */
+    int deleteAllById(Long id);
 
 }

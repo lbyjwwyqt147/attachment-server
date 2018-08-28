@@ -1,10 +1,9 @@
 server:
   servlet:
     context-path: /files   #设置项目名称
-#   默认的profile为dev，其他环境通过指定启动参数使用不同的profile，比如：
-#   测试环境：java -jar attachment-server.jar --spring.profiles.active=test
-#   开发环境：java -jar attachment-server.jar --spring.profiles.active=dev
-#   生产环境：java -jar attachment-server.jar --spring.profiles.active=prod
+#   测试环境：java -jar file-server.jar --spring.profiles.active=test
+#   开发环境：java -jar flie-server.jar --spring.profiles.active=dev
+#   生产环境：java -jar file-server.jar --spring.profiles.active=prod
 spring:
   profiles:
     active: dev

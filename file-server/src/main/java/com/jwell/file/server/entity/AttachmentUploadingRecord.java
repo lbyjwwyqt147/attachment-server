@@ -69,9 +69,17 @@ public class AttachmentUploadingRecord {
 
     /** 扩展字段4 */
     private String attributeFour;
+    /** 上传者名称 */
+    private String uploaderName;
+    /** 上传者ID */
+    private String uploaderId;
 
 
-    public AttachmentUploadingRecord(String attachmentOriginalName, String attachmentName, String fileDirectory, String absoluteAddress, String callOnAddress, String attachmentPostfix, Byte attachmentType, Long attachmentSize, String systemCode, String businessCode, String businessType, String description) {
+    public AttachmentUploadingRecord() {
+
+    }
+
+    public AttachmentUploadingRecord(String attachmentOriginalName, String attachmentName, String fileDirectory, String absoluteAddress, String callOnAddress, String attachmentPostfix, Byte attachmentType, Long attachmentSize, String systemCode, String businessCode, String businessType, String description, String uploaderName, String uploaderId) {
         this.attachmentOriginalName = attachmentOriginalName;
         this.attachmentName = attachmentName;
         this.fileDirectory = fileDirectory;
@@ -84,6 +92,8 @@ public class AttachmentUploadingRecord {
         this.businessCode = businessCode;
         this.businessType = businessType;
         this.description = description;
+        this.uploaderId = uploaderId;
+        this.uploaderName = uploaderName;
     }
 
     @Id
@@ -231,5 +241,21 @@ public class AttachmentUploadingRecord {
 
     public void setAttributeFour(String attributeFour) {
         this.attributeFour = attributeFour == null ? null : attributeFour.trim();
+    }
+
+    public String getUploaderName() {
+        return uploaderName;
+    }
+
+    public void setUploaderName(String uploaderName) {
+        this.uploaderName = uploaderName == null ? null : uploaderName.trim();
+    }
+
+    public String getUploaderId() {
+        return uploaderId;
+    }
+
+    public void setUploaderId(String uploaderId) {
+        this.uploaderId = uploaderId == null ? null : uploaderId.trim();
     }
 }

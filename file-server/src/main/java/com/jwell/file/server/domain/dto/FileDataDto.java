@@ -14,14 +14,13 @@ public class FileDataDto implements Serializable {
 
     /** 系统编码 例如：1001：设备系统 */
     private String systemCode;
-
     /** 业务编码 例如：1001001：访客管理 */
     private String businessCode;
-
     /** 业务类型 例如： 1001001001：访客头像 */
     private String businessType;
     /** 描述 */
     private String description;
     /** 上传者 */
-    private String uploader;
+    private String uploaderName;
+    private String uploaderId;
 }
