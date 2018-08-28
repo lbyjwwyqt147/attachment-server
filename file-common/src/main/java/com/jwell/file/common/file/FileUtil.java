@@ -40,19 +40,23 @@ public class FileUtil {
      * @return
      */
     public static String getFileSize(File file){
-        DecimalFormat df1 = new DecimalFormat("0.00");
-        String fileSize = null;
-        long value = file.length();
+        double value = (double) file.length();
         if (value < 1024) {
-            fileSize = df1.format((double) value) + "B";
-        } else if (value < 1048576) {
-            fileSize = df1.format((double) value / 1024) + "KB";
-        } else if (value < 1073741824) {
-            fileSize = df1.format((double) value / 1048576) + "MB";
+            return String.valueOf(value) + "B";
         } else {
-            fileSize = df1.format((double) value / 1073741824) + "GB";
+            value = new BigDecimal(value / 1024).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
         }
-        return fileSize;
+        if (value < 1024) {
+            return String.valueOf(value) + "KB";
+        } else {
+            value = new BigDecimal(value / 1024).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
+        }
+        if (value < 1024) {
+            return String.valueOf(value) + "MB";
+        } else {
+            value = new BigDecimal(value / 1024).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
+            return String.valueOf(value) + "GB";
+        }
     }
 
     /**
@@ -60,7 +64,7 @@ public class FileUtil {
      * @param fileName
      * @return
      */
-    public static String getSuffixName(String fileName){
+    public static String getSuffixName(String fileName) {
         // 文件后缀
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
         return suffixName;
