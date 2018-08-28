@@ -4,6 +4,7 @@ import com.jwell.file.common.restful.RestfulVo;
 import com.jwell.file.server.annotation.ApiVersion;
 import com.jwell.file.server.service.FlieDownloadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +32,7 @@ public class FlieDownloadController extends  BaseController{
      * @param id
      * @return
      */
-    @RequestMapping(value = "/download/{id}")
+    @GetMapping(value = "/download/{id}")
     @ApiVersion(1)
     public RestfulVo downloadFile(@PathVariable(value = "id") Long id, HttpServletResponse response){
        return flieDownloadService.downloadFile(id, response);

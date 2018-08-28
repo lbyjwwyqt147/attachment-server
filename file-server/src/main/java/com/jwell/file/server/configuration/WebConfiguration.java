@@ -4,9 +4,14 @@ import com.jwell.file.common.file.FileEnum;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import java.util.List;
 
 /***
  *
@@ -20,6 +25,10 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
     @Value("${data.file.dir}")
     private String  flieRelativePath;
 
+    /**
+     * 注册资源
+     * @param registry
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //addResourceHandler是指你想通过url请求的路径
@@ -31,6 +40,24 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/" + FileEnum.OTHERS.getName() + "/**").addResourceLocations("file:"+ flieRelativePath + "/" + FileEnum.OTHERS.getName()  + "/");
         super.addResourceHandlers(registry);
     }
+
+
+/*
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        super.configureMessageConverters(converters);
+        converters.add(new ByteArrayHttpMessageConverter());
+    }
+*/
+
+    /**
+     *  解决 org.springframework.web.HttpMediaTypeNotAcceptableException: Could not find acceptable representation
+     * @param configurer
+     */
+   /* @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer.favorPathExtension(false);
+    }*/
 
     @Override
     @Bean

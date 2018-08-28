@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -39,8 +40,19 @@ public class FileUtil {
      * @return
      */
     public static String getFileSize(File file){
-        DecimalFormat df = new DecimalFormat("0.00");
-        return df.format(file.length() / 1024);
+        DecimalFormat df1 = new DecimalFormat("0.00");
+        String fileSize = null;
+        long value = file.length();
+        if (value < 1024) {
+            fileSize = df1.format((double) value) + "B";
+        } else if (value < 1048576) {
+            fileSize = df1.format((double) value / 1024) + "KB";
+        } else if (value < 1073741824) {
+            fileSize = df1.format((double) value / 1048576) + "MB";
+        } else {
+            fileSize = df1.format((double) value / 1073741824) + "GB";
+        }
+        return fileSize;
     }
 
     /**
@@ -179,8 +191,10 @@ public class FileUtil {
         File file = new File(filePath);
         //判断文件是否存在
         if (file.exists()) {
-            response.setContentType("application/force-download");
+            response.reset();
+            response.setContentType("application/octet-stream");
             try {
+                response.setHeader("Content-Length", String.valueOf(file.length()));
                 response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -188,27 +202,28 @@ public class FileUtil {
             byte[] buffer = new byte[1024];
             //文件输入流
             FileInputStream fis = null;
-            BufferedInputStream bis = null;
-            //输出流
-            OutputStream os = null;
             try {
-                os = response.getOutputStream();
                 fis = new FileInputStream(file);
-                bis = new BufferedInputStream(fis);
-                int i = bis.read(buffer);
-                while (i != -1){
-                    os.write(buffer);
-                    i = bis.read(buffer);
+                int len;
+                while((len = fis.read(buffer))>0) {
+                    response.getOutputStream().write(buffer,0,len);
                 }
-
             } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                bis.close();
-                fis.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    if (fis != null) {
+                        fis.close();
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }finally{
+                try {
+                    if (fis != null) {
+                        fis.close();
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
     }
