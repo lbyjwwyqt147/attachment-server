@@ -41,7 +41,7 @@ public class AttachmentUploadingRecord {
     private Byte attachmentType;
 
     /** 附件大小(kb) */
-    private Double attachmentSize;
+    private String attachmentSize;
 
     /** 系统编码 例如：1001：设备系统 */
     private String systemCode;
@@ -79,7 +79,7 @@ public class AttachmentUploadingRecord {
 
     }
 
-    public AttachmentUploadingRecord(String attachmentOriginalName, String attachmentName, String fileDirectory, String absoluteAddress, String callOnAddress, String attachmentPostfix, Byte attachmentType, Double attachmentSize, String systemCode, String businessCode, String businessType, String description, String uploaderName, String uploaderId) {
+    public AttachmentUploadingRecord(String attachmentOriginalName, String attachmentName, String fileDirectory, String absoluteAddress, String callOnAddress, String attachmentPostfix, Byte attachmentType, String attachmentSize, String systemCode, String businessCode, String businessType, String description, String uploaderName, String uploaderId) {
         this.attachmentOriginalName = attachmentOriginalName;
         this.attachmentName = attachmentName;
         this.fileDirectory = fileDirectory;
@@ -162,11 +162,11 @@ public class AttachmentUploadingRecord {
         this.attachmentType = attachmentType;
     }
 
-    public Double getAttachmentSize() {
+    public String getAttachmentSize() {
         return attachmentSize;
     }
 
-    public void setAttachmentSize(Double attachmentSize) {
+    public void setAttachmentSize(String attachmentSize) {
         this.attachmentSize = attachmentSize;
     }
 

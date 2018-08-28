@@ -38,9 +38,9 @@ public class FileUtil {
      * @param file
      * @return
      */
-    public static Double getFileSize(File file){
+    public static String getFileSize(File file){
         DecimalFormat df = new DecimalFormat("0.00");
-        return Double.parseDouble(df.format(file.length() / 1024));
+        return df.format(file.length() / 1024);
     }
 
     /**
