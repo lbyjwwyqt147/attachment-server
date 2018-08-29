@@ -21,6 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <swagger2.version>2.9.2</swagger2.version>
     </properties>
 
     <dependencies>
@@ -48,6 +49,16 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger2.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
@@ -67,6 +78,7 @@
                 <configuration>
                     <mainClass>com.jwell.file.server.FileServerApplication</mainClass>
                     <layout>ZIP</layout>
+                    <fork>true</fork><!-- 如果没有该项配置，devtools不会起作用，即应用不会restart -->
                 </configuration>
                 <executions>
                     <execution>

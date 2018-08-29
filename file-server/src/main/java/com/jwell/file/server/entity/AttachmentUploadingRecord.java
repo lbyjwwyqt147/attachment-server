@@ -1,5 +1,8 @@
 package com.jwell.file.server.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,6 +18,7 @@ import java.util.Date;
  * @author ljy
  */
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class AttachmentUploadingRecord {
     /** id */
     private Long id;
@@ -195,6 +199,7 @@ public class AttachmentUploadingRecord {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     public Date getCreateTime() {
         return createTime;
     }

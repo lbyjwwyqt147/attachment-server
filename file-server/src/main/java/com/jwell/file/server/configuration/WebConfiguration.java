@@ -38,26 +38,12 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/" + FileEnum.VIDEOS.getName() + "/**").addResourceLocations("file:"+ flieRelativePath + "/" + FileEnum.VIDEOS.getName()  + "/");
         registry.addResourceHandler("/" + FileEnum.ZIPS.getName() + "/**").addResourceLocations("file:"+ flieRelativePath + "/" + FileEnum.ZIPS.getName()  + "/");
         registry.addResourceHandler("/" + FileEnum.OTHERS.getName() + "/**").addResourceLocations("file:"+ flieRelativePath + "/" + FileEnum.OTHERS.getName()  + "/");
+        // 注册swagger 资源  不然访问swagger-ui.html 是404
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         super.addResourceHandlers(registry);
     }
 
-
-/*
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        super.configureMessageConverters(converters);
-        converters.add(new ByteArrayHttpMessageConverter());
-    }
-*/
-
-    /**
-     *  解决 org.springframework.web.HttpMediaTypeNotAcceptableException: Could not find acceptable representation
-     * @param configurer
-     */
-   /* @Override
-    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer.favorPathExtension(false);
-    }*/
 
     @Override
     @Bean
