@@ -5,6 +5,10 @@ import com.jwell.file.common.restful.RestfulVo;
 import com.jwell.file.server.annotation.ApiVersion;
 import com.jwell.file.server.domain.dto.FileDataDto;
 import com.jwell.file.server.service.FlieUploadingService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +31,7 @@ import java.util.List;
  * @version 1.0
  * @author ljy
  */
+@Api(tags = "文件上传相关API")
 @RestController
 public class FlieUploadingController extends BaseController {
     @Autowired
@@ -38,6 +43,11 @@ public class FlieUploadingController extends BaseController {
      * @param data
      * @return
      */
+    @ApiOperation(value = "单个文件上传",notes = "适用于上传单个文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "file", value = "文件", paramType = "query", required = true, dataType = "MultipartFile")
+    })
     @PostMapping(value = "/upload/single", produces = "application/json;charset=UTF-8")
     @ApiVersion(1)
     public RestfulVo singleUploadFile(@RequestParam("file") MultipartFile file, FileDataDto data) {
@@ -53,6 +63,11 @@ public class FlieUploadingController extends BaseController {
      * @param data
      * @return
      */
+    @ApiOperation(value = "多个文件上传",notes = "适用于批量上传文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "file", value = "文件", paramType = "query", required = true, dataType = "MultipartFile")
+    })
     @PostMapping(value = "/upload/batch", produces = "application/json;charset=UTF-8")
     @ApiVersion(1)
     public RestfulVo batchUploadFile(HttpServletRequest request, FileDataDto data){

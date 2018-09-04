@@ -5,11 +5,12 @@ import com.jwell.file.common.restful.ResultUtil;
 import com.jwell.file.common.util.SystemUtils;
 import com.jwell.file.server.annotation.ApiVersion;
 import com.jwell.file.server.service.AttachmentUploadingRecordService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /***
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @author ljy
  */
+@Api(tags = "文件管理相关API")
 @RestController
 public class UploadingRecordController extends BaseController {
     @Autowired
@@ -33,7 +35,12 @@ public class UploadingRecordController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/delete/{id}")
+    @ApiOperation(value = "单条删除数据",notes = "适用于单条删除数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "文件id", paramType = "path", required = true, dataType = "integer")
+    })
+    @DeleteMapping(value = "/delete/{id}")
     @ApiVersion(1)
     public RestfulVo singleDelete(@PathVariable(value = "id") Long id){
         if (attachmentUploadingRecordService.deleteById(id) > 0) {
@@ -47,7 +54,12 @@ public class UploadingRecordController extends BaseController {
      * @param id　 多个id 用 , 隔开
      * @return
      */
-    @RequestMapping(value = "/batchDelete/{id}")
+    @ApiOperation(value = "删除多条数据",notes = "适用于批量删除数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")
+    })
+    @DeleteMapping(value = "/batchDelete/{id}")
     @ApiVersion(1)
     public RestfulVo batchDelete(@PathVariable(value = "id") String id){
         if (attachmentUploadingRecordService.deleteByIdIn(SystemUtils.getIds(id)) > 0) {
@@ -61,6 +73,11 @@ public class UploadingRecordController extends BaseController {
      * @param id  多个id 用 , 隔开
      * @return
      */
+    @ApiOperation(value = "根据文件id获取信息",notes = "适用于根据文件id获取信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")
+    })
     @GetMapping(value = "/details/{id}")
     @ApiVersion(1)
     public RestfulVo findAllById(@PathVariable(value = "id") String id){

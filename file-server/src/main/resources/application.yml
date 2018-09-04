@@ -1,6 +1,4 @@
-server:
-  servlet:
-    context-path: /files   #设置项目名称
+
 #   测试环境：java -jar file-server.jar --spring.profiles.active=test
 #   开发环境：java -jar flie-server.jar --spring.profiles.active=dev
 #   生产环境：java -jar file-server.jar --spring.profiles.active=prod
@@ -26,4 +24,7 @@ spring:
 
 
 
-
+# 使用 swagger 如果字段的类型为Long或是int类型 后台会报java.lang.NumberFormatException: For input string: ""；忽略这个错误
+logging:
+  level:
+    io.swagger.models.parameters.AbstractSerializableParameter: error

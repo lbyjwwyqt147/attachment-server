@@ -44,9 +44,7 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
     // 系统访问url
     @Value("${data.hostName}")
     private String hostName;
-    // 项目名称
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
+
 
 
     @Override
@@ -116,7 +114,6 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
      */
     private String getFileRequestUrl(String fileType, String fileName){
         StringBuffer requestUrl = new StringBuffer(hostName);
-        requestUrl.append(contextPath).append("/");
         requestUrl.append(fileType).append("/").append(fileName);
         return requestUrl.toString();
     }
