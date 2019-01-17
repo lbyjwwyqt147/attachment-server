@@ -1,0 +1,16 @@
+server:
+  port: 18080
+
+#配置外部访问文件（把上传的文件放到E盘下的fileUpload文件夹下）
+data:
+  file:
+    dir: E://jwellFileUpload/
+  # 配置系统访问url
+  hostName: http://localhost:18080/
+
+spring:
+  datasource:
+    url: jdbc:mysql://10.130.0.37:3307/jwwl_attachment?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
